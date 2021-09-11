@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePayrollFileIOService {
-
-    public static String PAYROLL_FILE_NAME="payroll-file.txt";
+	public static String PAYROLL_FILE_NAME="payroll-file.txt";
     public void writeData(List<EmployeePayrollData> employeePayrollList) {
         StringBuffer empBuffer=new StringBuffer();
         employeePayrollList.forEach(employee->{
@@ -17,7 +17,7 @@ public class EmployeePayrollFileIOService {
         });
         try {
             Files.write(Paths.get(PAYROLL_FILE_NAME),empBuffer.toString().getBytes());
-        }catch(IOException e) {
+        }catch(IOException e){
             e.printStackTrace();
         }
     }
@@ -38,5 +38,18 @@ public class EmployeePayrollFileIOService {
             e.printStackTrace();
         }
         return entries;
+    }
+    public List<EmployeePayrollData> readData(){
+        List<EmployeePayrollData> employeePayrollList=new ArrayList<>();
+        try {
+            Files.lines(new File("payroll-file.txt").toPath())
+                    .map(line->line.trim())
+                    .forEach(line->System.out.println(line));
+
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+        return employeePayrollList;
+
     }
 }
